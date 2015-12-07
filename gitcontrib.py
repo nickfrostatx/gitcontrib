@@ -19,7 +19,7 @@ def color(col, text):
 
 
 def grey(text):
-   """ why """
+    """ why """
     return color('37', text)
 
 
