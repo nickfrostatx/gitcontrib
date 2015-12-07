@@ -1,5 +1,6 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
+from __future__ import print_function
 from subprocess import check_output
 from sys import argv, exit
 from os import chdir, devnull
@@ -66,7 +67,7 @@ def git_contrib(location, ext):
         print("No git-commit authors found")
         return 1
 
-    pretty_output(loc, auth_loc, 1 / len(auth_loc))
+    pretty_output(loc, auth_loc, 1. / len(auth_loc))
     return 0
 
 
