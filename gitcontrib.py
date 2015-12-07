@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
 
-# TODO
-# Multiple source extensions
-# Handle different name same email as one contributor
-# Handle different email same name as one contributor
-# Handle github-side edits being double-counted
-
 import subprocess as sp
 from sys import argv, exit
 from os import chdir, devnull
