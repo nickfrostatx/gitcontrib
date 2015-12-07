@@ -50,7 +50,7 @@ def git_contrib(location, ext):
     auth_loc = {}
     git_files = check_output('git ls-tree --name-only -r HEAD', shell=True)
     for f in git_files.decode().split('\n'):
-        if not f.endswith('.' + ext):
+        if f.split('.')[-1] not in ext:
             continue
         cmd = ('git blame --line-porcelain HEAD "{0}" | grep  "^author "'
                .format(f))
@@ -72,10 +72,10 @@ def git_contrib(location, ext):
 
 
 def main():
-    if (len(argv) != 3):
+    if (len(argv) < 3):
         usage()
         return 1
-    return git_contrib(argv[1], argv[2])
+    return git_contrib(argv[1], set(argv[2:]))
 
 
 if __name__ == '__main__':
