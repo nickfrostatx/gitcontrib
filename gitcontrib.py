@@ -11,11 +11,13 @@ __version__ = '0.1.0'
 
 
 def usage():
+    """Print the program usage information."""
     print("Usage:\ngitcontrib <Path> <File Extension>")
 
 
 # monad
 def pretty_output(loc, auth_loc, expected_contrib):
+    """Display summary statistics."""
     print("\033[37;1mPROJECT CONTRIBUTIONS:\033[0m")
     print("\033[37mThe project has \033[34;1m%d\033[0;37m lines of code.\033[0m" % loc)
     print()
@@ -37,6 +39,7 @@ def pretty_output(loc, auth_loc, expected_contrib):
 
 
 def git_contrib(location, ext):
+    """Count the total lines written by each contributor."""
     try:
         chdir(location)
     except:
@@ -72,6 +75,7 @@ def git_contrib(location, ext):
 
 
 def main():
+    """Parse sys.argv and call git_contrib."""
     if (len(argv) < 3):
         usage()
         return 1
