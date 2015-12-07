@@ -13,6 +13,7 @@ from os import chdir, devnull
 def usage():
     print("Usage:\ngitcontrib <Path> <File Extension>");
 
+# monad
 def pretty_output(loc, auth_loc, expected_contrib):
     print("\033[37;1mPROJECT CONTRIBUTIONS:\033[0m")
     print("\033[37mThe project has \033[34;1m%d\033[0;37m lines of code.\033[0m" % loc)
