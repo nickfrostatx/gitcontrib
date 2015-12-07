@@ -2,8 +2,7 @@
 
 from __future__ import print_function
 from subprocess import check_output, CalledProcessError
-from sys import argv, exit
-from os import chdir, devnull
+import sys
 import os
 
 
@@ -12,7 +11,7 @@ __version__ = '0.1.0'
 
 def usage():
     """Print the program usage information."""
-    print("Usage:\ngitcontrib <Path> <File Extension>")
+    sys.stderr.write('Usage:\ngitcontrib <Path> <File Extension>\n')
 
 
 def color(col, text):
@@ -65,7 +64,7 @@ def git_contrib(path, ext):
     loc = sum(auth_loc.values())
 
     if len(auth_loc) == 0: # auth_loc and drop it
-        print("No git-commit authors found")
+        sys.stderr.write('No git-commit authors found\n')
         return 1
 
     pretty_output(loc, auth_loc, 1. / len(auth_loc))
@@ -74,14 +73,14 @@ def git_contrib(path, ext):
 
 def main():
     """Parse sys.argv and call git_contrib."""
-    if (len(argv) < 3):
+    if (len(sys.argv) < 3):
         usage()
         return 1
     try:
-        return git_contrib(argv[1], set(argv[2:]))
+        return git_contrib(sys.argv[1], set(sys.argv[2:]))
     except CalledProcessError as e:
         return e.returncode
 
 
 if __name__ == '__main__':
-    exit(main())
+    sys.exit(main())
