@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"""gitcontrib: Compare the activity of different git contributors."""
 
 from __future__ import print_function
 from subprocess import check_output, CalledProcessError
@@ -15,11 +16,12 @@ def usage():
 
 
 def color(col, text):
+    """Wrap a string with terminal styling."""
     return '\x1b[{0}m{1}\x1b[0m'.format(col, text)
 
 
 def grey(text):
-    """ why """
+    """Wrap a string in grey text styling."""
     return color('37', text)
 
 
@@ -41,6 +43,7 @@ def pretty_output(loc, auth_loc, expected_contrib):
 
 
 def git(path, *args):
+    """Call git on the specified repository."""
     cmd = ['git', '--git-dir=' + os.path.join(path, '.git'),
            '--work-tree=' + path]
     return check_output(cmd + list(args))
@@ -74,10 +77,9 @@ def main():
     except CalledProcessError as e:
         return e.returncode
 
-
     loc = sum(contrib.values())
 
-    if len(contrib) == 0: # auth_loc and drop it
+    if len(contrib) == 0:  # auth_loc and drop it
         sys.stderr.write('No git-commit authors found\n')
         return 1
 
