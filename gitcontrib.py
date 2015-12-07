@@ -10,6 +10,8 @@ import subprocess as sp
 from sys import argv, exit
 from os import chdir, devnull
 
+__version__ = '0.1.0'
+
 def usage():
     print("Usage:\ngitcontrib <Path> <File Extension>");
 
