@@ -4,10 +4,13 @@ import subprocess as sp
 from sys import argv, exit
 from os import chdir, devnull
 
+
 __version__ = '0.1.0'
 
+
 def usage():
-    print("Usage:\ngitcontrib <Path> <File Extension>");
+    print("Usage:\ngitcontrib <Path> <File Extension>")
+
 
 # monad
 def pretty_output(loc, auth_loc, expected_contrib):
@@ -21,7 +24,7 @@ def pretty_output(loc, auth_loc, expected_contrib):
     print("\033[37mContribution breakdown:\033[0m")
     outs = []
     for a in auth_loc:
-        outs.append((a, auth_loc[a])) 
+        outs.append((a, auth_loc[a]))
     outs.sort(key = lambda u: u[1])
     outs.reverse()
     for a in outs:
@@ -29,6 +32,7 @@ def pretty_output(loc, auth_loc, expected_contrib):
             print('   ', a[0], ' has contributed ', '\033[32;1m', a[1], '\033[0m', ' lines of code ', '(\033[032;1m%.2f%%\033[0m) ' % (a[1]*100/loc), sep="")
         else:
             print('   ', a[0], ' has contributed ', '\033[31;1m', a[1], '\033[0m', ' lines of code ', '(\033[031;1m%.2f%%\033[0m) ' % (a[1]*100/loc), sep="")
+
 
 def git_contrib(location, ext):
     try:
@@ -49,7 +53,7 @@ def git_contrib(location, ext):
         return 0
     authors = author_out.split('\n')
     authors = [a.replace("Author: ", "") for a in authors]
-    
+
     try:
         assert len(authors) > 0
     except AssertionError:
@@ -59,7 +63,7 @@ def git_contrib(location, ext):
     files = sp.getoutput("find . -iname \*.%s" % ext).replace('\n', ' ')
     if len(files):
         try:
-            loc = int(sp.getoutput("wc -l %s" % files).split("\n")[-1].split()[0]);
+            loc = int(sp.getoutput("wc -l %s" % files).split("\n")[-1].split()[0])
             assert loc >= 0
         except:
             print("Error in parsing files (check file permissions?)")
@@ -76,15 +80,17 @@ def git_contrib(location, ext):
             name = a
         for f in files.split():
             aloc += sum([int(x) for x in sp.getoutput("git blame %s | grep \"%s\" | wc -l" % (f, name)).split('\n')])
-        auth_loc[a] = aloc 
+        auth_loc[a] = aloc
     pretty_output(loc, auth_loc, 1 / len(authors))
     return 0
+
 
 def main():
     if (len(argv) != 3):
         usage()
         return 1
     return git_contrib(argv[1], argv[2])
+
 
 if __name__ == '__main__':
     exit(main())
