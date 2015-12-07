@@ -78,8 +78,8 @@ def main():
         return 1
     try:
         return git_contrib(argv[1], set(argv[2:]))
-    except CalledProcessError:
-        return 1
+    except CalledProcessError as e:
+        return e.returncode
 
 
 if __name__ == '__main__':
