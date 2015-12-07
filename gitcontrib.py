@@ -35,7 +35,8 @@ def pretty_output(loc, auth_loc, expected_contrib):
     print(grey('Contribution breakdown:'))
     for u, uloc in sorted(auth_loc.items(), key=lambda u: u[1], reverse=True):
         col = '32;1' if uloc >= expected_contrib * loc else '31;1'
-        print('   {0} has contributed,'.format(u), color(col, uloc), 'lines of code',
+        print('   {0} has contributed,'.format(u),
+              color(col, uloc), 'lines of code',
               '(' + color(col, '{0:.2f}%'.format((uloc*100. / loc))) + ')')
 
 
