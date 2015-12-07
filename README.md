@@ -1,6 +1,10 @@
 Git Contrib
 ===========
 
+[![Build Status](https://img.shields.io/travis/deltaheavy/git-contrib.svg)](https://travis-ci.org/deltaheavy/git-contrib)
+[![Version](https://img.shields.io/pypi/v/gitcontrib.svg)](https://pypi.python.org/pypi/gitcontrib)
+[![License](https://img.shields.io/pypi/l/gitcontrib.svg)](https://raw.githubusercontent.com/deltaheavy/git-contrib/master/LICENSE)
+
 The roommates coming together to write some code.. oh god
 
 TODO
