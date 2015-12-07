@@ -11,7 +11,7 @@ __version__ = '0.1.0'
 
 def usage():
     """Print the program usage information."""
-    sys.stderr.write('Usage:\ngitcontrib <Path> <File Extension>\n')
+    sys.stderr.write('Usage:\ngitcontrib [path] [extension ...]\n')
 
 
 def color(col, text):
