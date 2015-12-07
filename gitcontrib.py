@@ -60,15 +60,7 @@ def git_contrib(path, ext):
                 if author not in auth_loc:
                     auth_loc[author] = 0
                 auth_loc[author] += 1
-
-    loc = sum(auth_loc.values())
-
-    if len(auth_loc) == 0: # auth_loc and drop it
-        sys.stderr.write('No git-commit authors found\n')
-        return 1
-
-    pretty_output(loc, auth_loc, 1. / len(auth_loc))
-    return 0
+    return auth_loc
 
 
 def main():
@@ -76,10 +68,21 @@ def main():
     if (len(sys.argv) < 3):
         usage()
         return 1
+
     try:
-        return git_contrib(sys.argv[1], set(sys.argv[2:]))
+        contrib = git_contrib(sys.argv[1], set(sys.argv[2:]))
     except CalledProcessError as e:
         return e.returncode
+
+
+    loc = sum(contrib.values())
+
+    if len(contrib) == 0: # auth_loc and drop it
+        sys.stderr.write('No git-commit authors found\n')
+        return 1
+
+    pretty_output(loc, contrib, 1. / len(contrib))
+    return 0
 
 
 if __name__ == '__main__':
