@@ -46,18 +46,18 @@ def git(path, *args):
     """Call git on the specified repository."""
     cmd = ['git', '--git-dir=' + os.path.join(path, '.git'),
            '--work-tree=' + path]
-    return check_output(cmd + list(args))
+    return check_output(cmd + list(args)).decode()
 
 
 def git_contrib(path, ext):
     """Count the total lines written by each contributor."""
     auth_loc = {}
     git_files = git(path, 'ls-tree', '--name-only', '-r', 'HEAD')
-    for f in git_files.decode().split('\n'):
+    for f in git_files.split('\n'):
         if f.split('.')[-1] not in ext:
             continue
         blame = git(path, 'blame', '--line-porcelain', 'HEAD', '--', f)
-        for line in blame.decode().split('\n'):
+        for line in blame.split('\n'):
             if line.startswith('author '):
                 author = line[7:]
                 if author not in auth_loc:
