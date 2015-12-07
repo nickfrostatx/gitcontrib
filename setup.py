@@ -23,6 +23,14 @@ setup(
     long_description=readme + '\n\n' + history,
     py_modules=['gitcontrib'],
     install_requires=[],
+    extras_require={
+        'testing': [
+            'pytest',
+            'pytest-cov',
+            'pytest-pep8',
+            'pytest-pep257',
+        ],
+    },
     entry_points={
         'console_scripts': 'gitcontrib=gitcontrib:main',
     },
