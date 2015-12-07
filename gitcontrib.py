@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from __future__ import print_function
-from subprocess import check_output
+from subprocess import check_output, CalledProcessError
 from sys import argv, exit
 from os import chdir, devnull
 import os
@@ -80,7 +80,10 @@ def main():
     if (len(argv) < 3):
         usage()
         return 1
-    return git_contrib(argv[1], set(argv[2:]))
+    try:
+        return git_contrib(argv[1], set(argv[2:]))
+    except CalledProcessError:
+        return 1
 
 
 if __name__ == '__main__':
