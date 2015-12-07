@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
-import subprocess as sp
+from subprocess import check_output
 from sys import argv, exit
 from os import chdir, devnull
+import os
 
 
 __version__ = '0.1.0'
@@ -41,47 +42,31 @@ def git_contrib(location, ext):
         print("Error accessing %s (check file permissions?)" % location)
         return 1
 
-    try:
-        sp.check_call(['ls', '.git'], stdout=sp.DEVNULL, stderr=sp.DEVNULL)
-    except:
+    if not os.path.exists('.git'):
         print("%s is not a git repository" % location)
         return 1
 
-    (s, author_out) = sp.getstatusoutput("git log | grep Author | sort -u")
-    if s != 0:
-        print(author_out)
-        return 0
-    authors = author_out.split('\n')
-    authors = [a.replace("Author: ", "") for a in authors]
+    auth_loc = {}
+    git_files = check_output('git ls-tree --name-only -r HEAD', shell=True)
+    for f in git_files.decode().split('\n'):
+        if not f.endswith('.' + ext):
+            continue
+        cmd = ('git blame --line-porcelain HEAD "{0}" | grep  "^author "'
+               .format(f))
+        for line in check_output(cmd, shell=True).decode().split('\n'):
+            if line:
+                author = line[7:]
+                if author not in auth_loc:
+                    auth_loc[author] = 0
+                auth_loc[author] += 1
 
-    try:
-        assert len(authors) > 0
-    except AssertionError:
+    loc = sum(auth_loc.values())
+
+    if len(auth_loc) == 0:
         print("No git-commit authors found")
         return 1
 
-    files = sp.getoutput("find . -iname \*.%s" % ext).replace('\n', ' ')
-    if len(files):
-        try:
-            loc = int(sp.getoutput("wc -l %s" % files).split("\n")[-1].split()[0])
-            assert loc >= 0
-        except:
-            print("Error in parsing files (check file permissions?)")
-            return 1
-    else:
-        print("No files with extension '%s' in %s" % (ext, location))
-        return 1
-    auth_loc = {}
-    for a in authors:
-        aloc = 0
-        try:
-            name = a[0:a.index("<") - 1]
-        except:
-            name = a
-        for f in files.split():
-            aloc += sum([int(x) for x in sp.getoutput("git blame %s | grep \"%s\" | wc -l" % (f, name)).split('\n')])
-        auth_loc[a] = aloc
-    pretty_output(loc, auth_loc, 1 / len(authors))
+    pretty_output(loc, auth_loc, 1 / len(auth_loc))
     return 0
 
 
