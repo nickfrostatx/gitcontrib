@@ -20,6 +20,7 @@ def color(col, text):
 
 
 def grey(text):
+   """ why """
     return color('37', text)
 
 
@@ -63,7 +64,7 @@ def git_contrib(path, ext):
 
     loc = sum(auth_loc.values())
 
-    if len(auth_loc) == 0:
+    if len(auth_loc) == 0: # auth_loc and drop it
         print("No git-commit authors found")
         return 1
 
