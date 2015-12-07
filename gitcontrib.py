@@ -39,27 +39,22 @@ def pretty_output(loc, auth_loc, expected_contrib):
               '(' + color(col, '{0:.2f}%'.format((uloc*100. / loc))) + ')')
 
 
-def git_contrib(location, ext):
+def git(path, *args):
+    cmd = ['git', '--git-dir=' + os.path.join(path, '.git'),
+           '--work-tree=' + path]
+    return check_output(cmd + list(args))
+
+
+def git_contrib(path, ext):
     """Count the total lines written by each contributor."""
-    try:
-        chdir(location)
-    except:
-        print("Error accessing %s (check file permissions?)" % location)
-        return 1
-
-    if not os.path.exists('.git'):
-        print("%s is not a git repository" % location)
-        return 1
-
     auth_loc = {}
-    git_files = check_output('git ls-tree --name-only -r HEAD', shell=True)
+    git_files = git(path, 'ls-tree', '--name-only', '-r', 'HEAD')
     for f in git_files.decode().split('\n'):
         if f.split('.')[-1] not in ext:
             continue
-        cmd = ('git blame --line-porcelain HEAD "{0}" | grep  "^author "'
-               .format(f))
-        for line in check_output(cmd, shell=True).decode().split('\n'):
-            if line:
+        blame = git(path, 'blame', '--line-porcelain', 'HEAD', '--', f)
+        for line in blame.decode().split('\n'):
+            if line.startswith('author '):
                 author = line[7:]
                 if author not in auth_loc:
                     auth_loc[author] = 0
