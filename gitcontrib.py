@@ -15,27 +15,28 @@ def usage():
     print("Usage:\ngitcontrib <Path> <File Extension>")
 
 
+def color(col, text):
+    return '\x1b[{0}m{1}\x1b[0m'.format(col, text)
+
+
+def grey(text):
+    return color('37', text)
+
+
 # monad
 def pretty_output(loc, auth_loc, expected_contrib):
     """Display summary statistics."""
-    print("\033[37;1mPROJECT CONTRIBUTIONS:\033[0m")
-    print("\033[37mThe project has \033[34;1m%d\033[0;37m lines of code.\033[0m" % loc)
+    print(grey('PROJECT CONTRIBUTIONS'))
+    print(grey('The project has'), color('34;1', loc), grey('lines of code'))
     print()
-    print("\033[37mContributors (%d):\033[0m" % len(auth_loc.keys()))
-    print('', end='   ')
-    print('\n   '.join(auth_loc.keys()))
+    print(grey('Contributors ({0:d}):'.format(len(auth_loc))))
+    print('   ' + '\n   '.join(auth_loc.keys()))
     print()
-    print("\033[37mContribution breakdown:\033[0m")
-    outs = []
-    for a in auth_loc:
-        outs.append((a, auth_loc[a]))
-    outs.sort(key = lambda u: u[1])
-    outs.reverse()
-    for a in outs:
-        if a[1] >= expected_contrib*loc:
-            print('   ', a[0], ' has contributed ', '\033[32;1m', a[1], '\033[0m', ' lines of code ', '(\033[032;1m%.2f%%\033[0m) ' % (a[1]*100/loc), sep="")
-        else:
-            print('   ', a[0], ' has contributed ', '\033[31;1m', a[1], '\033[0m', ' lines of code ', '(\033[031;1m%.2f%%\033[0m) ' % (a[1]*100/loc), sep="")
+    print(grey('Contribution breakdown:'))
+    for u, uloc in sorted(auth_loc.items(), key=lambda u: u[1], reverse=True):
+        col = '32;1' if uloc >= expected_contrib * loc else '31;1'
+        print('   {0} has contributed,'.format(u), color(col, uloc), 'lines of code',
+              '(' + color(col, '{0:.2f}%'.format((uloc*100. / loc))) + ')')
 
 
 def git_contrib(location, ext):
