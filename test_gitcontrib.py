@@ -13,7 +13,4 @@ def git_repo(tmpdir):
 
 
 def test_git(git_repo):
-    out = git(str(git_repo), 'status')
-    assert out == ('On branch master\n\nInitial commit\n\n'
-                   'nothing to commit (create/copy files and use "git add" '
-                   'to track)\n')
+    assert 'nothing to commit' in git(str(git_repo), 'status')
