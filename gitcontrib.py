@@ -2,9 +2,9 @@
 """gitcontrib: Compare the activity of different git contributors."""
 
 from __future__ import print_function
-from subprocess import check_output, CalledProcessError
-import sys
 import os
+import subprocess
+import sys
 
 
 __version__ = '0.1.0'
@@ -45,8 +45,12 @@ def pretty_output(loc, auth_loc, expected_contrib):
 def git(path, *args):
     """Call git on the specified repository."""
     cmd = ['git', '--git-dir=' + os.path.join(path, '.git'),
-           '--work-tree=' + path]
-    return check_output(cmd + list(args)).decode()
+           '--work-tree=' + path] + list(args)
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    data = proc.communicate()[0].decode()
+    if proc.returncode != 0:
+        raise OSError('git command failed', proc.returncode)
+    return data
 
 
 def git_contrib(path, ext):
@@ -74,8 +78,8 @@ def main():
 
     try:
         contrib = git_contrib(sys.argv[1], set(sys.argv[2:]))
-    except CalledProcessError as e:
-        return e.returncode
+    except OSError as e:
+        return e.args[1]
 
     loc = sum(contrib.values())
 
