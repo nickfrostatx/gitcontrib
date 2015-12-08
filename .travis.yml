@@ -17,3 +17,11 @@ matrix:
     env: TOXENV=pypy
 install: pip install tox
 script: tox
+deploy:
+  provider: pypi
+  user: deltaheavy
+  password: redacted
+  distrobutions: sdist bdist_wheel
+  on:
+    tags: true
+    condition: $TRAVIS_JOB_NUMBER = *.1
