@@ -19,8 +19,9 @@ install: pip install tox
 script: tox
 deploy:
   provider: pypi
-  user: deltaheavy
-  password: redacted
+  user: nickfrostatx
+  password:
+    secure: JTgtU3fp9dC/n/5PEeDa2lHdoh7IWQqCRvE2xnIRufXCkWZeroz60CQaryU924wb0Y0Rj+5QQE9wP+i2bVAR4SLvwhBcj7xDtYpO57/VfzNUIHEw8Kxtg3hKDGPaDperys0CT9D3TmT/pG3ZGf2tb+nnCHxi1z3F1GoTMzTmNsBz4wE1s+fYJhiY+/jckrngJNYoLJIOuGhxyKSfvNf8wsF56I5MUA5p8nx0ET7idLPZt0ifbtrXwCof4pCTPTab4ihC+RE464W73ZqwkoyJZerVw0fHpgkMIxYlI+TfedNUd0Af3rBGVkRkNkiOAonYlwMm57MWPQlFEHUfQE+xGntYgk6BgYD6mgmZNrrjSjAW0/7vamZTm5oUgYoi9X1pe7rXgHnxi+M+VxkwqJ0pZu0B9A9T24Rp2XFQCR+lR/yK2w0gMv3MQh/xORCoqf7j4lz75DzMZjQdCIAK0pRVZu5GyA6Fg4Ikh+2YTsVF69FFiiOII3MBVtg3Oj6KSy2yta+zMhQeIJWt17U3II1E09Bq0CwpYGqHuSNy4npuLehVNfs/gbZ/d/3BJv5ApnqHrCkz7SM31xvQ2dXhBdFq2Uyb3stNWDLAbuJtme0dimQWLzEpWG8zdex2G8dLY8SWVUdJwvR39K+qJ3Yy5aFWEGlHMJKLyb/YVivirYpwZ/I=
   distrobutions: sdist bdist_wheel
   on:
     tags: true

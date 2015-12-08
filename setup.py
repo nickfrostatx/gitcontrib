@@ -16,9 +16,9 @@ with open('HISTORY.md') as f:
 setup(
     name='gitcontrib',
     version=version,
-    author='Max Zinkus',
-    author_email='mzinkus@calpoly.edu',
-    url='https://github.com/DeltaHeavy/git-contrib',
+    author='Nick Frost',
+    author_email='nickfrostatx@gmail.com',
+    url='https://github.com/nickfrostatx/gitcontrib',
     description='Compare the activity of different git contributors.',
     long_description=readme + '\n\n' + history,
     py_modules=['gitcontrib'],
