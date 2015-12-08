@@ -1,10 +1,10 @@
 Git Contrib
 ===========
 
-[![Build Status](https://img.shields.io/travis/nickfrostatx/git-contrib.svg)](https://travis-ci.org/nickfrostatx/git-contrib)
-[![Coverage](https://img.shields.io/coveralls/nickfrostatx/git-contrib.svg)](https://coveralls.io/github/nickfrostatx/git-contrib)
+[![Build Status](https://img.shields.io/travis/nickfrostatx/gitcontrib.svg)](https://travis-ci.org/nickfrostatx/gitcontrib)
+[![Coverage](https://img.shields.io/coveralls/nickfrostatx/gitcontrib.svg)](https://coveralls.io/github/nickfrostatx/gitcontrib)
 [![Version](https://img.shields.io/pypi/v/gitcontrib.svg)](https://pypi.python.org/pypi/gitcontrib)
-[![License](https://img.shields.io/pypi/l/gitcontrib.svg)](https://raw.githubusercontent.com/nickfrostatx/git-contrib/master/LICENSE)
+[![License](https://img.shields.io/pypi/l/gitcontrib.svg)](https://raw.githubusercontent.com/nickfrostatx/gitcontrib/master/LICENSE)
 
 The roommates coming together to write some code.. oh god
 
