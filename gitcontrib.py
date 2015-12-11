@@ -2,6 +2,7 @@
 """gitcontrib: Compare the activity of different git contributors."""
 
 from __future__ import print_function
+from functools import partial
 import os
 import subprocess
 import sys
@@ -19,10 +20,7 @@ def color(col, text):
     """Wrap a string with terminal styling."""
     return '\x1b[{0}m{1}\x1b[0m'.format(col, text)
 
-
-def grey(text):
-    """Wrap a string in grey text styling."""
-    return color('37', text)
+grey = partial(color, 37)
 
 
 # monad
