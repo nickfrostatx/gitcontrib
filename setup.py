@@ -16,7 +16,7 @@ with open('HISTORY.md') as f:
 setup(
     name='gitcontrib',
     version=version,
-    author='Nick Frost',
+    author='Nick Frost, Max Zinkus, & Nick Gonella',
     author_email='nickfrostatx@gmail.com',
     url='https://github.com/nickfrostatx/gitcontrib',
     description='Compare the activity of different git contributors.',
