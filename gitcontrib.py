@@ -56,7 +56,7 @@ def git_contrib(path, ext):
     auth_loc = {}
     git_files = git(path, 'ls-tree', '--name-only', '-r', 'HEAD')
     for f in git_files.split('\n'):
-        if f.split('.')[-1] not in ext:
+        if not f or '*' not in ext and f.split('.')[-1] not in ext:
             continue
         blame = git(path, 'blame', '--line-porcelain', 'HEAD', '--', f)
         for line in blame.split('\n'):
@@ -70,9 +70,11 @@ def git_contrib(path, ext):
 
 def main():
     """Parse sys.argv and call git_contrib."""
-    if (len(sys.argv) < 3):
+    if len(sys.argv) < 2:
         usage()
         return 1
+    if len(sys.argv) < 3:
+        sys.argv.append("*")
 
     try:
         contrib = git_contrib(sys.argv[1], set(sys.argv[2:]))
