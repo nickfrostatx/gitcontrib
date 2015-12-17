@@ -3,6 +3,7 @@
 
 from __future__ import print_function
 from functools import partial
+import curses
 import os
 import subprocess
 import sys
@@ -15,30 +16,37 @@ def usage():
     """Print the program usage information."""
     sys.stderr.write('Usage:\ngitcontrib [path] [extension ...]\n')
 
-
-def color(col, text):
-    """Wrap a string with terminal styling."""
-    return '\x1b[{0}m{1}\x1b[0m'.format(col, text)
-
-grey = partial(color, 37)
-
-
 # monad
-def pretty_output(loc, auth_loc, expected_contrib):
-    """Display summary statistics."""
-    print(grey('PROJECT CONTRIBUTIONS'))
-    print(grey('The project has'), color('34;1', loc), grey('lines of code'))
-    print()
-    print(grey('Contributors ({0:d}):'.format(len(auth_loc))))
-    print('   ' + '\n   '.join(auth_loc.keys()))
-    print()
-    print(grey('Contribution breakdown:'))
-    for u, uloc in sorted(auth_loc.items(), key=lambda u: u[1], reverse=True):
-        col = '32;1' if uloc >= expected_contrib * loc else '31;1'
-        print('   {0} has contributed,'.format(u),
-              color(col, uloc), 'lines of code',
-              '(' + color(col, '{0:.2f}%'.format((uloc*100. / loc))) + ')')
+def pretty_print(total_lines, auth_dict, expected_contrib):
+    stdscr = curses.initscr()
 
+    curses.start_color()
+    curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
+    curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK)
+    curses.init_pair(3, curses.COLOR_BLUE, curses.COLOR_BLACK)
+    curses.curs_set(0)
+
+    #Tuple unpacking sets each of these equal to a curses color
+    (T_RED, T_GREEN, T_BLUE) = tuple([curses.color_pair(x) for x in range(1,4)])
+
+    stdscr.addstr('PROJECT CONTRIBUTIONS\n')
+    stdscr.addstr('This project has ')
+    stdscr.addstr(str(total_lines), T_BLUE)
+    stdscr.addstr(' lines of code\n\n')
+    stdscr.addstr('Contributors ({0:d}):\n'.format(len(auth_dict)))
+    stdscr.addstr('   ' + '\n   '.join(auth_dict.keys()))
+    stdscr.addstr('\n\nContribution breakdown:\n')
+    for u, uloc in sorted(auth_dict.items(), key=lambda u: u[1], reverse=True):
+        col = T_GREEN if uloc >= expected_contrib * total_lines else T_RED
+        stdscr.addstr('   {0} has contributed '.format(u))
+        stdscr.addstr(str(uloc), col)
+        stdscr.addstr(' lines of code (')
+        stdscr.addstr('{0:.2f}%'.format((uloc*100. / total_lines)), col)
+        stdscr.addstr(')\n')
+
+    stdscr.refresh()
+    stdscr.getkey()
+    curses.endwin()
 
 def git(path, *args):
     """Call git on the specified repository."""
@@ -67,7 +75,6 @@ def git_contrib(path, ext):
                 auth_loc[author] += 1
     return auth_loc
 
-
 def main():
     """Parse sys.argv and call git_contrib."""
     if len(sys.argv) < 2:
@@ -87,7 +94,7 @@ def main():
         sys.stderr.write('No git-commit authors found\n')
         return 1
 
-    pretty_output(loc, contrib, 1. / len(contrib))
+    pretty_print(loc, contrib, 1. / len(contrib))
     return 0
 
 
