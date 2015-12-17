@@ -17,5 +17,6 @@ def test_usage(capsys):
     out, err = capsys.readouterr()
     assert err == 'Usage:\ngitcontrib [path] [extension ...]\n'
 
+
 def test_git(git_repo):
     assert 'nothing to commit' in gitcontrib.git(str(git_repo), 'status')

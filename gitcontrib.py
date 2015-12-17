@@ -16,6 +16,7 @@ def usage():
     """Print the program usage information."""
     sys.stderr.write('Usage:\ngitcontrib [path] [extension ...]\n')
 
+
 # monad
 def pretty_print(total_lines, auth_dict, expected_contrib):
     stdscr = curses.initscr()
@@ -26,8 +27,9 @@ def pretty_print(total_lines, auth_dict, expected_contrib):
     curses.init_pair(3, curses.COLOR_BLUE, curses.COLOR_BLACK)
     curses.curs_set(0)
 
-    #Tuple unpacking sets each of these equal to a curses color
-    (T_RED, T_GREEN, T_BLUE) = tuple([curses.color_pair(x) for x in range(1,4)])
+    # Tuple unpacking sets each of these equal to a curses color
+    t_colors = tuple([curses.color_pair(x) for x in range(1, 4)])
+    (T_RED, T_GREEN, T_BLUE) = t_colors
 
     stdscr.addstr('PROJECT CONTRIBUTIONS\n')
     stdscr.addstr('This project has ')
@@ -47,6 +49,7 @@ def pretty_print(total_lines, auth_dict, expected_contrib):
     stdscr.refresh()
     stdscr.getkey()
     curses.endwin()
+
 
 def git(path, *args):
     """Call git on the specified repository."""
@@ -74,6 +77,7 @@ def git_contrib(path, ext):
                     auth_loc[author] = 0
                 auth_loc[author] += 1
     return auth_loc
+
 
 def main():
     """Parse sys.argv and call git_contrib."""
