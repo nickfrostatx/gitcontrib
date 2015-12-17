@@ -42,7 +42,8 @@ def pretty_print(total_lines, auth_dict, expected_contrib):
         col = T_GREEN if uloc >= expected_contrib * total_lines else T_RED
         stdscr.addstr('   {0} has contributed '.format(u))
         stdscr.addstr(str(uloc), col)
-        stdscr.addstr(' lines of code (')
+        plural = ' line of code (' if uloc == 1 else ' lines of code ('
+        stdscr.addstr(plural)
         stdscr.addstr('{0:.2f}%'.format((uloc*100. / total_lines)), col)
         stdscr.addstr(')\n')
 
