@@ -1,0 +1,40 @@
+.\" Manpage for git contrib
+.\" Not sure if it truly belongs in section 1, but it seems the closest
+.TH GIT-CONTRIB 1 "18 December 2015" "0.1.0" "Git Manual (Extended)"
+.SH NAME
+git-contrib \- Display contribution statistics
+.SH SYNOPSIS
+git contrib [-p,--path project directory] [file extension(s)]
+.SH DESCRIPTION
+.I git contrib
+displays colorized statistics on the lines-of-code contibutions to a repository.
+The percentages displayed are show in green if
+.I git-blame(1)
+associates a percentage of total lines of code greater than or equal to the reciprocal of the number of contributors
+to the contributor listed in the same line, and red otherwise. Essentially, green means someone has contributed their fair share
+or more, and red means they have not.
+.SH OPTIONS
+A project directory is a folder in which a git-tracked project's .git directory is found.
+An example list of file extensions is "c h", and another is "py".
+.I git contrib
+optionally takes a path specified after -p or --path and an optional list of space-delimited file extensions or *.
+If no path is specified,
+.I git contrib
+will assume the current directory is the project root.
+If no file extensions are given or if * is given,
+.I git contrib
+will look for any files (excluding hidden files).
+.SH SEE ALSO
+git-blame(1), wc(1)
+.SH EXAMPLES
+git contrib
+
+git contrib java
+
+git contrib --path .. py
+
+git contrib -p /path/to/some/repo c h
+.SH BUGS
+Of course, there are no bugs. If you find one, please report it at https://github.com/nickfrostatx/gitcontrib/issues
+.SH AUTHORS
+Nick Frost, Nick Gonella, and Max Zinkus
