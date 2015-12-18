@@ -28,7 +28,9 @@ def pretty_print(total_lines, auth_dict, expected_contrib):
     curses.curs_set(0)
 
     # Tuple unpacking sets each of these equal to a curses color
-    (T_RED, T_GREEN, T_BLUE) = tuple([curses.color_pair(x) for x in range(1, 4)])
+    (T_RED, T_GREEN, T_BLUE) = tuple([curses.color_pair(x)
+                                      for x
+                                      in range(1, 4)])
 
     stdscr.addstr('PROJECT CONTRIBUTIONS\n')
     stdscr.addstr('This project has ')
