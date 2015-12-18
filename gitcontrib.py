@@ -28,15 +28,16 @@ def pretty_print(total_lines, auth_dict, expected_contrib):
     curses.curs_set(0)
 
     # Tuple unpacking sets each of these equal to a curses color
-    t_colors = tuple([curses.color_pair(x) for x in range(1, 4)])
-    (T_RED, T_GREEN, T_BLUE) = t_colors
+    (T_RED, T_GREEN, T_BLUE) = tuple([curses.color_pair(x) for x in range(1, 4)])
 
     stdscr.addstr('PROJECT CONTRIBUTIONS\n')
     stdscr.addstr('This project has ')
     stdscr.addstr(str(total_lines), T_BLUE)
     stdscr.addstr(' lines of code\n\n')
+
     stdscr.addstr('Contributors ({0:d}):\n'.format(len(auth_dict)))
     stdscr.addstr('   ' + '\n   '.join(auth_dict.keys()))
+
     stdscr.addstr('\n\nContribution breakdown:\n')
     for u, uloc in sorted(auth_dict.items(), key=lambda u: u[1], reverse=True):
         col = T_GREEN if uloc >= expected_contrib * total_lines else T_RED
@@ -44,7 +45,7 @@ def pretty_print(total_lines, auth_dict, expected_contrib):
         stdscr.addstr(str(uloc), col)
         plural = ' line of code (' if uloc == 1 else ' lines of code ('
         stdscr.addstr(plural)
-        stdscr.addstr('{0:.2f}%'.format((uloc*100. / total_lines)), col)
+        stdscr.addstr('{0:.2f}%'.format((uloc * 100. / total_lines)), col)
         stdscr.addstr(')\n')
 
     stdscr.refresh()
@@ -95,7 +96,7 @@ def main():
 
     loc = sum(contrib.values())
 
-    if len(contrib) == 0:  # auth_loc and drop it
+    if len(contrib) == 0:
         sys.stderr.write('No git-commit authors found\n')
         return 1
 
