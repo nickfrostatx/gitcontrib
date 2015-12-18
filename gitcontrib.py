@@ -84,8 +84,7 @@ def git_contrib(path, ext):
 def main():
     """Parse sys.argv and call git_contrib."""
     if len(sys.argv) < 2:
-        usage()
-        return 1
+        sys.argv.append(".")
     if len(sys.argv) < 3:
         sys.argv.append("*")
 
