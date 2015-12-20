@@ -14,6 +14,7 @@ The roommates coming together to write some code.. oh god
 * Handle github-side edits being double-counted
 * ncurses taking over my term kinda makes me double-take, how do you guys feel about it
 * (at least) Make ncurses background use your term background color rather than being grey
+* --simple or --json to make it output raw json so that it can ship to a badge/webapp view/module
 * Only take a path after a flag (-p,--path) so that we can specify extensions while having it run in the current dir
 * Add setup/install hook which runs `git config alias.contrib "!gitcontrib.py"` so that our package can be called with `git contrib`
 * Manpage install + cleanup if installed via a package manager
