@@ -87,14 +87,15 @@ def git_contrib(path, ext):
 def main():
     """Parse sys.argv and call git_contrib."""
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "p:")
+        opts, args = getopt.getopt(sys.argv[1:], "p:", [
+            'path='])
     except getopt.GetoptError as err:
         usage()
         return 1
     path = "."
     ext = "*"
     for opt, arg in opts:
-        if opt == "-p":
+        if opt in ("-p", "--path"):
             path = arg
         else:
             assert False, "unhandled option"
