@@ -16,7 +16,7 @@ def git_repo(tmpdir):
 def test_usage(capsys):
     gitcontrib.usage()
     out, err = capsys.readouterr()
-    assert err == 'Usage:\ngitcontrib [-p path] [extension ...]\n'
+    assert err == 'Usage:\ngitcontrib [-p, --path path] [extension ...]\n'
 
 
 def test_git(git_repo):
@@ -27,4 +27,4 @@ def test_badArg(capsys):
     sys.argv = ['gitcontrib', '-a']
     gitcontrib.main()
     out, err = capsys.readouterr()
-    assert err == 'Usage:\ngitcontrib [-p path] [extension ...]\n'
+    assert err == 'Usage:\ngitcontrib [-p, --path path] [extension ...]\n'

@@ -15,7 +15,7 @@ __version__ = '0.1.0'
 
 def usage():
     """Print the program usage information."""
-    sys.stderr.write('Usage:\ngitcontrib [-p path] [extension ...]\n')
+    sys.stderr.write('Usage:\ngitcontrib [-p, --path path] [extension ...]\n')
 
 
 # monad
