@@ -4,6 +4,7 @@
 from __future__ import print_function
 from functools import partial
 import curses
+import getopt
 import os
 import subprocess
 import sys
@@ -85,13 +86,22 @@ def git_contrib(path, ext):
 
 def main():
     """Parse sys.argv and call git_contrib."""
-    if len(sys.argv) < 2:
-        sys.argv.append(".")
-    if len(sys.argv) < 3:
-        sys.argv.append("*")
-
     try:
-        contrib = git_contrib(sys.argv[1], set(sys.argv[2:]))
+        opts, args = getopt.getopt(sys.argv[1:], "p:")
+    except getopt.GetoptError as err:
+        usage()
+        sys.exit(1)
+    path = "."
+    ext = "*"
+    for opt, arg in opts:
+        if opt == "-p":
+            path = arg
+        else:
+            assert False, "unhandled option"
+    if len(args) > 0:
+        ext = args
+    try:
+        contrib = git_contrib(path, set(ext))
     except OSError as e:
         return e.args[1]
 
