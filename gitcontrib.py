@@ -15,7 +15,7 @@ __version__ = '0.1.0'
 
 def usage():
     """Print the program usage information."""
-    sys.stderr.write('Usage:\ngitcontrib [path] [extension ...]\n')
+    sys.stderr.write('Usage:\ngitcontrib [-p path] [extension ...]\n')
 
 
 # monad
@@ -90,7 +90,7 @@ def main():
         opts, args = getopt.getopt(sys.argv[1:], "p:")
     except getopt.GetoptError as err:
         usage()
-        sys.exit(1)
+        return 1
     path = "."
     ext = "*"
     for opt, arg in opts:
