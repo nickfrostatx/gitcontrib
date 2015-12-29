@@ -16,7 +16,9 @@ __version__ = '0.1.0'
 
 def usage():
     """Print the program usage information."""
-    sys.stderr.write('Usage:\ngitcontrib [-p, --path path] [extension ...]\n')
+    sys.stderr.write(
+        'Usage:\ngitcontrib [--json] [-p, --path path] [extension ...]\n'
+        )
 
 
 # monad
@@ -64,7 +66,9 @@ def json_print(total_lines, auth_dict, expected_contrib):
     for u, uloc in auth_dict.items():
         percent = uloc * 100. / total_lines
         expected = uloc >= expected_contrib * total_lines
-        j_data[u] = {"lines":uloc, "percent":'{0:.2f}'.format(percent), "met_expected":expected}
+        j_data[u] = {"lines": uloc,
+                     "percent": '{0:.2f}'.format(percent),
+                     "met_expected": expected}
     print(json.dumps(j_data))
 
 
