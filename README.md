@@ -8,6 +8,9 @@ Git Contrib
 
 The roommates coming together to write some code.. oh god
 
+**Find Us**
+* IRC: join `#gitcontrib` on Freenode
+
 **TODO**
 * Handle different name same email as one contributor
 * Handle different email same name as one contributor
