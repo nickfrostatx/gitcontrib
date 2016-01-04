@@ -5,6 +5,7 @@ from __future__ import print_function
 from functools import partial
 import curses
 import getopt
+import json
 import os
 import subprocess
 import sys
@@ -15,7 +16,9 @@ __version__ = '0.1.0'
 
 def usage():
     """Print the program usage information."""
-    sys.stderr.write('Usage:\ngitcontrib [-p, --path path] [extension ...]\n')
+    sys.stderr.write(
+        'Usage:\ngitcontrib [--json] [-p, --path path] [extension ...]\n'
+        )
 
 
 # monad
@@ -56,6 +59,19 @@ def pretty_print(total_lines, auth_dict, expected_contrib):
     curses.endwin()
 
 
+# monad
+def json_print(total_lines, auth_dict, expected_contrib):
+    j_data = {}
+    j_data["total_lines"] = total_lines
+    for u, uloc in auth_dict.items():
+        percent = uloc * 100. / total_lines
+        expected = uloc >= expected_contrib * total_lines
+        j_data[u] = {"lines": uloc,
+                     "percent": '{0:.2f}'.format(percent),
+                     "met_expected": expected}
+    print(json.dumps(j_data))
+
+
 def git(path, *args):
     """Call git on the specified repository."""
     cmd = ['git', '--git-dir=' + os.path.join(path, '.git'),
@@ -88,15 +104,18 @@ def main():
     """Parse sys.argv and call git_contrib."""
     try:
         opts, args = getopt.getopt(sys.argv[1:], "p:", [
-            'path='])
+            'path=', 'json'])
     except getopt.GetoptError as err:
         usage()
         return 1
     path = "."
     ext = "*"
+    jflag = False
     for opt, arg in opts:
         if opt in ("-p", "--path"):
             path = arg
+        elif opt == "--json":
+            jflag = True
         else:
             assert False, "unhandled option"
     if len(args) > 0:
@@ -112,7 +131,10 @@ def main():
         sys.stderr.write('No git-commit authors found\n')
         return 1
 
-    pretty_print(loc, contrib, 1. / len(contrib))
+    if jflag:
+        json_print(loc, contrib, 1. / len(contrib))
+    else:
+        pretty_print(loc, contrib, 1. / len(contrib))
     return 0
 
 

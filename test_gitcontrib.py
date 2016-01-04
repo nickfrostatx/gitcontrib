@@ -2,9 +2,12 @@
 """Test them contribs."""
 
 import gitcontrib
+import json
 import pytest
 import subprocess
 import sys
+
+u_string = 'Usage:\ngitcontrib [--json] [-p, --path path] [extension ...]\n'
 
 
 @pytest.fixture
@@ -16,7 +19,7 @@ def git_repo(tmpdir):
 def test_usage(capsys):
     gitcontrib.usage()
     out, err = capsys.readouterr()
-    assert err == 'Usage:\ngitcontrib [-p, --path path] [extension ...]\n'
+    assert err == u_string
 
 
 def test_git(git_repo):
@@ -27,4 +30,15 @@ def test_badArg(capsys):
     sys.argv = ['gitcontrib', '-a']
     gitcontrib.main()
     out, err = capsys.readouterr()
-    assert err == 'Usage:\ngitcontrib [-p, --path path] [extension ...]\n'
+    assert err == u_string
+
+
+def test_json(capsys):
+    total = 20
+    auth = {'a': 12, 'b': 2, 'c': 1, 'd': 5}
+    expect = 0.25
+    gitcontrib.json_print(total, auth, expect)
+    out, err = capsys.readouterr()
+    j_data = json.loads(out)
+    assert j_data['a']['met_expected']
+    assert j_data['b']['lines'] == 2
