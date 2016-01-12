@@ -44,15 +44,15 @@ def pretty_print(total_lines, auth_dict, expected_contrib):
     stdscr.addstr('   ' + '\n   '.join(auth_dict.keys()))
 
     stdscr.addstr('\n\nContribution breakdown:\n')
-    
+
     for u, uloc in sorted(auth_dict.items(), key=lambda u: u[1], reverse=True):
         col = T_GREEN if uloc >= expected_contrib * total_lines else T_RED
-        
+
         stdscr.addstr('   {0} has contributed '.format(u))
         stdscr.addstr(str(uloc), col)
-        
+
         plural = ' line of code (' if uloc == 1 else ' lines of code ('
-        
+
         stdscr.addstr(plural)
         stdscr.addstr('{0:.2f}%'.format((uloc * 100. / total_lines)), col)
         stdscr.addstr(')\n')
@@ -65,14 +65,15 @@ def pretty_print(total_lines, auth_dict, expected_contrib):
 def json_print(total_lines, auth_dict, expected_contrib):
     j_data = {}
     j_data["total_lines"] = total_lines
-    
+
     for u, uloc in auth_dict.items():
         percent = uloc * 100. / total_lines
         expected = uloc >= expected_contrib * total_lines
-        j_data[u] = {"lines": uloc,
-                     "percent": '{0:.2f}'.format(percent),
-                     "met_expected": expected
-                    }
+        j_data[u] = {
+            "lines": uloc,
+            "percent": '{0:.2f}'.format(percent),
+            "met_expected": expected,
+        }
     print(json.dumps(j_data))
 
 
@@ -91,7 +92,7 @@ def git_contrib(path, ext):
     """Count the total lines written by each contributor."""
     auth_loc = {}
     git_files = git(path, 'ls-tree', '--name-only', '-r', 'HEAD')
-    
+
     for f in git_files.split('\n'):
         if not f or '*' not in ext and f.split('.')[-1] not in ext:
             continue
