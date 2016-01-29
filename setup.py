@@ -32,7 +32,7 @@ setup(
         ],
     },
     entry_points={
-        'console_scripts': 'gitcontrib=gitcontrib:main',
+        'console_scripts': 'git-contrib=gitcontrib:main',
     },
     license='MIT',
     classifiers=[
