@@ -23,7 +23,7 @@ def test_usage(capsys):
 
 
 def test_git(git_repo):
-    assert 'nothing to commit' in gitcontrib.git(str(git_repo), 'status')
+    assert b'nothing to commit' in gitcontrib.git(str(git_repo), 'status')
 
 
 def test_badArg(capsys):
