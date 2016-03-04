@@ -16,3 +16,4 @@ The roommates coming together to write some code.. oh god
 * (at least) Make ncurses background use your term background color rather than being grey
 * Add setup/install hook which runs `git config alias.contrib "!gitcontrib.py"` so that our package can be called with `git contrib`
 * Manpage install + cleanup if installed via a package manager
+* Command line option to exclude files
