@@ -82,7 +82,7 @@ def git(path, *args):
     cmd = ['git', '--git-dir=' + os.path.join(path, '.git'),
            '--work-tree=' + path] + list(args)
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-    data = proc.communicate()[0].decode()
+    data = proc.communicate()[0]
     if proc.returncode != 0:
         raise OSError('git command failed', proc.returncode)
     return data
@@ -91,15 +91,15 @@ def git(path, *args):
 def git_contrib(path, ext):
     """Count the total lines written by each contributor."""
     auth_loc = {}
-    git_files = git(path, 'ls-tree', '--name-only', '-r', 'HEAD')
+    git_files = git(path, 'ls-tree', '--name-only', '-r', 'HEAD').decode()
 
     for f in git_files.split('\n'):
         if not f or '*' not in ext and f.split('.')[-1] not in ext:
             continue
         blame = git(path, 'blame', '--line-porcelain', 'HEAD', '--', f)
-        for line in blame.split('\n'):
-            if line.startswith('author '):
-                author = line[7:]
+        for line in blame.split(b'\n'):
+            if line.startswith(b'author '):
+                author = line[7:].decode()
                 if author not in auth_loc:
                     auth_loc[author] = 0
                 auth_loc[author] += 1
