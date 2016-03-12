@@ -3,7 +3,6 @@
 
 from __future__ import print_function
 from functools import partial
-import curses
 import getopt
 import json
 import os
@@ -13,6 +12,11 @@ import sys
 
 __version__ = '0.1.0'
 
+BOLD    = '\033[1m'
+CLEAR   = '\033[0m'
+BLUE    = '\033[34m'
+GREEN   = '\033[32m'
+RED     = '\033[31m'
 
 def usage():
     """Print the program usage information."""
@@ -20,47 +24,32 @@ def usage():
         'Usage:\ngitcontrib [--json] [-p, --path path] [extension ...]\n'
     )
 
+def print_color(string, color=CLEAR):
+    print(color + string + CLEAR, sep='', end='')
 
 def pretty_print(total_lines, auth_dict, expected_contrib):
-    stdscr = curses.initscr()
+    print_color('PROJECT CONTRIBUTIONS\n', BOLD)
+    print_color('This project has ')
+    print_color(str(total_lines), BLUE)
+    print_color(' lines of code\n\n')
 
-    curses.start_color()
-    curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
-    curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK)
-    curses.init_pair(3, curses.COLOR_BLUE, curses.COLOR_BLACK)
-    curses.curs_set(0)
+    print_color('Contributors ({0:d}):\n'.format(len(auth_dict)), BOLD)
+    print_color('   ' + '\n   '.join(auth_dict.keys()))
 
-    # Tuple unpacking sets each of these equal to a curses color
-    (T_RED, T_GREEN, T_BLUE) = tuple([curses.color_pair(x)
-                                      for x
-                                      in range(1, 4)])
-
-    stdscr.addstr('PROJECT CONTRIBUTIONS\n')
-    stdscr.addstr('This project has ')
-    stdscr.addstr(str(total_lines), T_BLUE)
-    stdscr.addstr(' lines of code\n\n')
-
-    stdscr.addstr('Contributors ({0:d}):\n'.format(len(auth_dict)))
-    stdscr.addstr('   ' + '\n   '.join(auth_dict.keys()))
-
-    stdscr.addstr('\n\nContribution breakdown:\n')
+    print_color('\n\nContribution breakdown:\n')
 
     for u, uloc in sorted(auth_dict.items(), key=lambda u: u[1], reverse=True):
-        col = T_GREEN if uloc >= expected_contrib * total_lines else T_RED
+        col = GREEN if uloc >= expected_contrib * total_lines else RED
 
-        stdscr.addstr('   {0} has contributed '.format(u))
-        stdscr.addstr(str(uloc), col)
+        print_color('   {0} has contributed '.format(u))
+        print_color(str(uloc), col)
 
-        plural = ' line of code (' if uloc == 1 else ' lines of code ('
+        plural = ' line ' if uloc == 1 else ' lines '
+        plural += 'of code ('
 
-        stdscr.addstr(plural)
-        stdscr.addstr('{0:.2f}%'.format((uloc * 100. / total_lines)), col)
-        stdscr.addstr(')\n')
-
-    stdscr.refresh()
-    stdscr.getkey()
-    curses.endwin()
-
+        print_color(plural)
+        print_color('{0:.2f}%'.format((uloc * 100. / total_lines)), col)
+        print_color(')\n')
 
 def json_print(total_lines, auth_dict, expected_contrib):
     j_data = {}
