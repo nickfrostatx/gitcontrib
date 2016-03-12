@@ -12,8 +12,6 @@ The roommates coming together to write some code.. oh god
 * Handle different name same email as one contributor
 * Handle different email same name as one contributor
 * Handle github-side edits being double-counted
-* ncurses taking over my term kinda makes me double-take, how do you guys feel about it
-* (at least) Make ncurses background use your term background color rather than being grey
 * Add setup/install hook which runs `git config alias.contrib "!gitcontrib.py"` so that our package can be called with `git contrib`
 * Manpage install + cleanup if installed via a package manager
 * Command line option to exclude files
