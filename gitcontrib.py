@@ -51,7 +51,7 @@ def pretty_print(total_lines, auth_dict, expected_contrib):
         print_color('{0:.2f}%'.format((uloc * 100. / total_lines)), col)
         print_color(')\n')
 
-def json_print(total_lines, auth_dict, expected_contrib):
+def jsonify(total_lines, auth_dict, expected_contrib):
     j_data = {}
     j_data["total_lines"] = total_lines
 
@@ -63,8 +63,7 @@ def json_print(total_lines, auth_dict, expected_contrib):
             "percent": '{0:.2f}'.format(percent),
             "met_expected": expected,
         }
-    print(json.dumps(j_data))
-
+    json.dumps(j_data)
 
 def git(path, *args):
     """Call git on the specified repository."""
@@ -127,7 +126,7 @@ def main():
         return 1
 
     if jflag:
-        json_print(loc, contrib, 1. / len(contrib))
+        print(jsonify((loc, contrib, 1. / len(contrib)))
     else:
         pretty_print(loc, contrib, 1. / len(contrib))
     return 0
