@@ -63,7 +63,7 @@ def jsonify(total_lines, auth_dict, expected_contrib):
             "percent": '{0:.2f}'.format(percent),
             "met_expected": expected,
         }
-    json.dumps(j_data)
+    return json.dumps(j_data)
 
 def git(path, *args):
     """Call git on the specified repository."""
@@ -126,7 +126,7 @@ def main():
         return 1
 
     if jflag:
-        print(jsonify((loc, contrib, 1. / len(contrib)))
+        print(jsonify(loc, contrib, 1. / len(contrib)))
     else:
         pretty_print(loc, contrib, 1. / len(contrib))
     return 0
