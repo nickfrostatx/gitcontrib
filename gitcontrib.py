@@ -66,14 +66,12 @@ def jsonify(total_lines, auth_dict, expected_contrib):
 
 def git(path, *args):
     """Call git on the specified repository."""
-    cur_dir = subprocess.getoutput("pwd")
     os.chdir(path)
     cmd = ['git'] + list(args)
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     data = proc.communicate()[0]
     if proc.returncode != 0:
         raise OSError('git command failed', proc.returncode)
-    os.chdir(cur_dir)
     return data
 
 
