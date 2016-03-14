@@ -7,8 +7,8 @@ import pytest
 import subprocess
 import sys
 
-u_string = 'Usage:\ngitcontrib [--json] [-p, --path path] [extension(s) ...]\n'
 
+u_string = 'Usage:\ngitcontrib [--json] [-p, --path path] [extension(s) ...]\n'
 
 @pytest.fixture
 def git_repo(tmpdir):
@@ -23,7 +23,8 @@ def test_usage(capsys):
 
 
 def test_git(git_repo):
-    assert b'nothing to commit' in gitcontrib.git(str(git_repo), 'status')
+    # NOTE XXX TODO NO NO NO NO WRONG BAD NO XXX
+    assert b'nothing to commit' in gitcontrib.git(str(git_repo), 'status') 
 
 
 def test_badArg(capsys):
