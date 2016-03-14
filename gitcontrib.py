@@ -21,7 +21,7 @@ RED     = '\033[31m'
 def usage():
     """Print the program usage information."""
     sys.stderr.write(
-        'Usage:\ngitcontrib [--json] [-p, --path path] [extension ...]\n'
+        'Usage:\ngitcontrib [--json] [-p, --path path] [extension(s) ...]\n'
     )
 
 def print_color(string, color=CLEAR):
@@ -45,9 +45,8 @@ def pretty_print(total_lines, auth_dict, expected_contrib):
         print_color(str(uloc), col)
 
         plural = ' line ' if uloc == 1 else ' lines '
-        plural += 'of code ('
 
-        print_color(plural)
+        print_color(plural + 'of code (')
         print_color('{0:.2f}%'.format((uloc * 100. / total_lines)), col)
         print_color(')\n')
 
@@ -111,7 +110,8 @@ def main():
         elif opt == "--json":
             jflag = True
         else:
-            assert False, "unhandled option"
+            from os import abort
+            abort()
     if len(args) > 0:
         ext = args
     try:

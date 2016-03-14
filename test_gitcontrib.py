@@ -7,7 +7,7 @@ import pytest
 import subprocess
 import sys
 
-u_string = 'Usage:\ngitcontrib [--json] [-p, --path path] [extension ...]\n'
+u_string = 'Usage:\ngitcontrib [--json] [-p, --path path] [extension(s) ...]\n'
 
 
 @pytest.fixture
