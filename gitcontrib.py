@@ -2,7 +2,6 @@
 """gitcontrib: Compare the activity of different git contributors."""
 
 from __future__ import print_function
-from functools import partial
 import getopt
 import json
 import os
