@@ -26,3 +26,5 @@ deploy:
   on:
     tags: true
     condition: $TRAVIS_JOB_NUMBER = *.1
+notifications:
+    email: false
