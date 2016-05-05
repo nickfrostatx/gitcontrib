@@ -11,11 +11,12 @@ import sys
 
 __version__ = '0.1.0'
 
-BOLD    = '\033[1m'
-CLEAR   = '\033[0m'
-BLUE    = '\033[34m'
-GREEN   = '\033[32m'
-RED     = '\033[31m'
+BOLD = '\033[1m'
+CLEAR = '\033[0m'
+BLUE = '\033[34m'
+GREEN = '\033[32m'
+RED = '\033[31m'
+
 
 def usage():
     """Print the program usage information."""
@@ -23,8 +24,10 @@ def usage():
         'Usage:\ngitcontrib [--json] [-p, --path path] [extension(s) ...]\n'
     )
 
+
 def print_color(string, color=CLEAR):
     print(color + string + CLEAR, sep='', end='')
+
 
 def pretty_print(total_lines, auth_dict, expected_contrib):
     print_color('PROJECT CONTRIBUTIONS\n', BOLD)
@@ -49,6 +52,7 @@ def pretty_print(total_lines, auth_dict, expected_contrib):
         print_color('{0:.2f}%'.format((uloc * 100. / total_lines)), col)
         print_color(')\n')
 
+
 def jsonify(total_lines, auth_dict, expected_contrib):
     j_data = {}
     j_data["total_lines"] = total_lines
@@ -62,6 +66,7 @@ def jsonify(total_lines, auth_dict, expected_contrib):
             "met_expected": expected,
         }
     return json.dumps(j_data)
+
 
 def git(path, *args):
     """Call git on the specified repository."""
