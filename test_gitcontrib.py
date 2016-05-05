@@ -23,6 +23,12 @@ def test_usage(capsys):
     assert err == u_string
 
 
+def test_print_color(capsys):
+    gitcontrib.print_color('test', gitcontrib.GREEN)
+    out, err = capsys.readouterr()
+    assert out == '\033[32mtest\033[0m'
+
+
 def test_git(git_repo):
     # NOTE XXX TODO NO NO NO NO WRONG BAD NO XXX
     assert b'nothing to commit' in gitcontrib.git(str(git_repo), 'status')
